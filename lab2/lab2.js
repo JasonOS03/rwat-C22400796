@@ -30,6 +30,27 @@ document.body.addEventListener("mousemove" , (e) =>
 document.body.addEventListener("mouseup" , (e) =>
 {
    dragging = false;
+
+   localStorage.setItem("top",box.style.top);
+   localStorage.setItem("left",box.style.left);
 }
 );
+
+window.addEventListener("load", () =>
+{
+    const savetop = localStorage.getItem("top");
+    const saveleft = localStorage.getItem("left");
+
+    if(savetop && saveleft)
+    {
+        box.style.position = "absolute";
+        box.style.top = savetop;
+        box.style.left = saveleft;
+    }
+});
+
+document.body.addEventListener("click", (e) =>
+{
+    document.body.style.backgroundColor
+});
 
