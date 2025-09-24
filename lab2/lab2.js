@@ -49,8 +49,9 @@ window.addEventListener("load", () =>
     }
 });
 
-document.body.addEventListener("click", (e) =>
+document.addEventListener("click", () =>
 {
-    document.body.style.backgroundColor
+    var bg_color ="#" + Math.floor(Math.random()*16777215).toString(16);
+    document.body.style.backgroundColor = bg_color;
 });
 
