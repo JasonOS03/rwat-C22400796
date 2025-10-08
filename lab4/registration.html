@@ -6,22 +6,23 @@
     <title>Registration Form</title>
 </head>
 <body>
+    <dialog open>
     <h1>Register</h1>
     <br><br>
 
-    <form id = "sectionform">
+    <form id = "sectionform" method = "dialog">
         <fieldset>
             <legend>User Registration</legend>
             <p>
-                <input type = "text", id = "username", placeholder = "Enter your username">
+                <input type = "text" id = "username" placeholder = "Enter your username" required>
                 <label for = "username">Username: </label>
             </p>
             <p>
-                <input type = "text", id = "passw",placeholder = "Enter your password">
+                <input type = "password" id = "passw", placeholder = "Enter your password" required title="Password must be 8–12 characters long and include at least one lowercase letter, one uppercase letter, one number, and one special character (!, #, %, &, *, _, =, +, -, $, ^).", pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#%&*_=+\-\$\^]).{8,12}"  >
                 <label for = "passw">Password: </label>
             </p>
             <p>
-                <input type = "email", id ="email", placeholder = "Enter your email">
+                <input type = "email" id ="email" placeholder = "Enter your email" required>
                 <label for = "email">Email:</label>
             </p>
         </fieldset>
@@ -29,21 +30,22 @@
             <legend>Optional fields</legend>
             <h2>Please select your reasons for joining the website</h2>
             <label>
-                <input type = "checkbox", id = "Leisure", name = "checkbox">
+                <input type = "checkbox" id = "Leisure" name = "checkbox">
                 Leisure
             </label>
             <label>
-                <input type = "checkbox", id = "Work", name = "work">
+                <input type = "checkbox" id = "Work" name = "work">
                 Work
             </label>
             <label>
-                <input type = "checkbox", id = "Education", name = "education">
+                <input type = "checkbox" id = "Education" name = "education">
                 Education
             </label>
             <label>
-                <input type = "checkbox", id = "other",name = "other">
+                <input type = "checkbox" id = "other" name = "other">
                 Other
             </label>
+
             <h3>Boards of Interest: </h3>
             <select id = "board" multiple size = "3">
                 <option value = "Science">Science</option>
@@ -52,12 +54,40 @@
                 <option value = "Engineering">Engineering</option>
                 <option value = "Business">Business</option>
             </select>
+
+            <h4>Availability for Volunteer Work</h4>
+            <label>
+                <input type = "radio" name = "availabilty" id = "none" checked>
+                None
+            </label>
+            <label>
+                <input type = "radio" name = "availabilty" id = "1hr">
+                1 hour 
+            </label>
+            <label>
+                <input type = "radio" name = "availabilty" id = "2-3hrs">
+                2-3 hours
+            </label>
+            <label>
+                <input type = "radio" name = "availabilty" id = "4-5hrs">
+                4-5 hours
+            </label>
+
+            <br></br>
+
+            <h5>Customize background image:</h5>
+            <label>
+                <input type = "file"  name = "background" id = "background" accept="image/*">
+                Background Image 
+            </label>
                 
 
            
 
         </fieldset>
+        <button type = "submit" id = "submitform" name = "submitform" onclick = "closeDialog();validate_uname()">Submit</button>
     </form>
-    
+    </dialog>
+    <script src = "registration.js"></script>
 </body>
 </html>
