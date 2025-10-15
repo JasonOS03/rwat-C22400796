@@ -39,4 +39,46 @@ document.addEventListener("DOMContentLoaded", () => {
     new_data_pg.innerHTML = updated
         .map(s => `firstname: ${s.firstname}, surname: ${s.surname}, Average: ${s.average}, result: (${s.result})`)
         .join(" ");
+
+        const new_table = document.getElementById("student_table");
+        new_table.innerHTML = `
+        <tr>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Average</th>
+            <th>Result</th>
+        </tr>
+        ${updated.map(student => `
+            <tr>
+            <td>${student.firstname}</td>
+            <td>${student.surname}</td>
+            <td>${student.average}</td>
+            <td>${student.result}</td>
+            </tr>
+        `).join("")}
+        `;
 });
+let fail_list = document.getElementById("fail-list");
+
+ const fail_result = updated.filter(s => s.result == "F");
+ fail_list.innerHTML = `
+        <tr>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Average</th>
+            <th>Result</th>
+        </tr>
+        ${fail_result.map(student => `
+            <tr>
+            <td>${student.firstname}</td>
+            <td>${student.surname}</td>
+            <td>${student.average}</td>
+            <td>${student.result}</td>
+            </tr>
+        `).join("")}
+        `;
+
+
+
+
+
