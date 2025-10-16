@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dining Application</title>
+</head>
+<body>
+    <h1>Dining Table</h1>
+    <form id = "filter_form">
+        <fieldset>
+        <label for = "filter">Choose a filter: </label>
+        <select id = "filter", name = "filter">
+            <option id = "firstname">First Name</option>
+            <option id = "surname">Surname</option>
+            <option id = "fav_course">Favourite Course</option>
+            <option id = "dining_type">Dining Type</option>
+        </select>
+        <button id = "apply_results" name = "Apply">Apply</button>
+        </fieldset>
+    </form>
+    <table id = "data_container"></table>
+   
+    
+
+
+
+    <script src = "dining.js"></script>
+</body>
+</html>
