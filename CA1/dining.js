@@ -65,6 +65,7 @@ let firstname_input = "";
 let lastname_input = "";
 
 
+
 firstname.addEventListener("click", ()=>
     {
         const form = document.createElement("form");
@@ -105,6 +106,41 @@ firstname.addEventListener("click", ()=>
                     
                
     });
+    favourite.addEventListener("click", ()=>
+    {
+        const form = document.createElement("form");
+        const input = document.createElement("input");
+        const label = document.createElement("p");
+        const course_options = ["Starter","Main","Dessert"];
+        label.textContent = "Please select your favourite course(s)";
+        form.appendChild(label);
+
+        course_options.forEach( option =>
+        {
+            input.type = "checkbox";
+            input.name = option;
+        }
+        )
+
+
+        
+
+        starter.textContent = "Starter";
+        starter.value = "Starter";
+        main.textContent = "Main";
+        main.value = "Main"
+        dessert.textContent = "Dessert";
+
+        filter_form.appendChild(form);
+
+        dropdown.addEventListener("change", () =>{
+            course_option = label.value;
+        });
+
+        
+                    
+               
+    });
 
     apply_button.addEventListener("click", (e)=>{
             e.preventDefault();
@@ -124,6 +160,10 @@ firstname.addEventListener("click", ()=>
                 data_to_filter = data_to_filter.filter(person =>
                 person.last_name.toLowerCase().includes(lastname_input)
                 );
+            }
+            if(course_option)
+            {
+                data_to_filter = data_to_filter.filter(person => person.fav_course.includes(course_option));
             }
             
                 render(data_to_filter);
