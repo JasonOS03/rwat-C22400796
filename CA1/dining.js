@@ -59,7 +59,12 @@ function render(data)
 }
 get_data();
 
-let input_filter = "";
+
+
+let firstname_input = "";
+let lastname_input = "";
+
+
 firstname.addEventListener("click", ()=>
     {
         const form = document.createElement("form");
@@ -71,38 +76,59 @@ firstname.addEventListener("click", ()=>
 
         input.type = "text";
         filter_form.appendChild(form);
-        let data_to_filter = parsed_data;
 
         input.addEventListener("input", () =>{
-            input_filter = input.value.toLowerCase().trim();
-        })
-        apply_button.addEventListener("click", (e)=>{
-                e.preventDefault();
-                    let filtered_data;
-                    if(input_filter){
-                        filtered_data = data_to_filter.filter(person =>
-                         person.first_name.toLowerCase().includes(input_filter)
-                       
+            firstname_input = input.value.toLowerCase().trim();
+        });
+
+        
                     
-                       
+               
+    });
+    surname.addEventListener("click", ()=>
+    {
+        const form = document.createElement("form");
+        const input = document.createElement("input");
+        const paragraph = document.createElement("p");
+        paragraph.textContent = "Last name should match regular expression"
+        form.appendChild(paragraph);
+        form.appendChild(input);
+
+        input.type = "text";
+        filter_form.appendChild(form);
+
+        input.addEventListener("input", () =>{
+            lastname_input = input.value.toLowerCase().trim();
+        });
+
+        
+                    
+               
+    });
+
+    apply_button.addEventListener("click", (e)=>{
+            e.preventDefault();
+            let data_to_filter = parsed_data;
+            if(firstname_input)
+            {
+
+                data_to_filter = data_to_filter.filter(person =>
+                    person.first_name.toLowerCase().includes(firstname_input)
+                
+                
+                    
                 );
             }
-            else
+            if(lastname_input)
             {
-                filtered_data = data_to_filter;
+                data_to_filter = data_to_filter.filter(person =>
+                person.last_name.toLowerCase().includes(lastname_input)
+                );
             }
-                render(filtered_data);
+            
+                render(data_to_filter);
            
                
             });
-                    
-               
-            });
-            
-
-
-        
-        
-        
     
-
+    
