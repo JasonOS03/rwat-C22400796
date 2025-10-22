@@ -106,45 +106,50 @@ firstname.addEventListener("click", ()=>
                     
                
     });
+     const select = [];
+     let filtered_form = null;
     favourite.addEventListener("click", ()=>
     {
+        if(filtered_form)
+        {
+            return;
+        }
         const form = document.createElement("form");
-        const input = document.createElement("input");
-        const label = document.createElement("p");
+        filtered_form = form;
+        const paragraph = document.createElement("p");
         const course_options = ["Starter","Main","Dessert"];
-        label.textContent = "Please select your favourite course(s)";
-        form.appendChild(label);
+        paragraph.textContent = "Please select your favourite course(s)";
+        form.appendChild(paragraph);
 
         course_options.forEach( option =>
         {
+            const input = document.createElement("input");
             input.type = "checkbox";
-            input.name = option;
+            input.value = option.toLowerCase();
+            input.id = `course_${option}`;
+
+            const label = document.createElement("label");
+            label.setAttribute("for", input.id);
+            label.textContent = option;
+
+            form.appendChild(input);
+            form.appendChild(label);
+            
+
         }
         )
 
 
-        
-
-        starter.textContent = "Starter";
-        starter.value = "Starter";
-        main.textContent = "Main";
-        main.value = "Main"
-        dessert.textContent = "Dessert";
 
         filter_form.appendChild(form);
-
-        dropdown.addEventListener("change", () =>{
-            course_option = label.value;
-        });
-
-        
-                    
+               
                
     });
 
     apply_button.addEventListener("click", (e)=>{
             e.preventDefault();
             let data_to_filter = parsed_data;
+
             if(firstname_input)
             {
 
@@ -161,14 +166,27 @@ firstname.addEventListener("click", ()=>
                 person.last_name.toLowerCase().includes(lastname_input)
                 );
             }
-            if(course_option)
+            if(filtered_form){
+            const boxes = filtered_form.querySelectorAll('input[type="checkbox"]');
+            let selected_options = [];
+            for(let i =0;i<boxes.length;i++)
             {
-                data_to_filter = data_to_filter.filter(person => person.fav_course.includes(course_option));
+                let checked = boxes[i].checked;
+                if(checked){
+                selected_options.push(boxes[i].value);
+                }
+            }
+
+        
+            if(selected_options.length > 0)
+            {
+                data_to_filter = data_to_filter.filter(person => selected_options.includes(person.fav_course.toLowerCase().trim()));
             }
             
-                render(data_to_filter);
            
                
-            });
+            }
+            render(data_to_filter);
+        });
     
     
