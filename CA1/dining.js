@@ -126,7 +126,7 @@ firstname.addEventListener("click", ()=>
             const input = document.createElement("input");
             input.type = "checkbox";
             input.value = option.toLowerCase();
-            input.id = `course_${option}`;
+            input.id = `option_${option}`;
 
             const label = document.createElement("label");
             label.setAttribute("for", input.id);
@@ -145,6 +145,45 @@ firstname.addEventListener("click", ()=>
                
                
     });
+    let dining_form = null;
+    dining_type.addEventListener("click", ()=>
+    {
+        if(dining_form)
+        {
+            return;
+        }
+        const form = document.createElement("form");
+        dining_form = form;
+        const paragraph = document.createElement("p");
+        const dining_types = ["Restaurant","Home","Picnic","Takeaway"];
+        paragraph.textContent = "Please select your favourite dining type";
+        form.appendChild(paragraph);
+
+        dining_types.forEach( type =>
+        {
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.value = type.toLowerCase();
+            input.name = `${type}`;
+
+            const label = document.createElement("label");
+            label.setAttribute("for", input.name);
+            label.textContent = type;
+
+            form.appendChild(input);
+            form.appendChild(label);
+            
+
+        }
+        )
+
+
+
+        filter_form.appendChild(form);
+               
+               
+    });
+
 
     apply_button.addEventListener("click", (e)=>{
             e.preventDefault();
@@ -181,11 +220,27 @@ firstname.addEventListener("click", ()=>
             if(selected_options.length > 0)
             {
                 data_to_filter = data_to_filter.filter(person => selected_options.includes(person.fav_course.toLowerCase().trim()));
-            }
-            
-           
+            } 
                
             }
+            if(dining_form)
+            {
+            const dining_boxes = dining_form.querySelectorAll('input[type="checkbox"]');
+            let selected_types = [];
+            for(let i =0;i<dining_boxes.length;i++)
+            {
+                let checked = dining_boxes[i].checked;
+                if(checked){
+                selected_types.push(dining_boxes[i].value);
+                }
+            }
+
+        
+            if(selected_types.length > 0)
+            {
+                data_to_filter = data_to_filter.filter(person => selected_types.includes(person.fav_dining_type.toLowerCase().trim()));
+            }
+        }
             render(data_to_filter);
         });
     
