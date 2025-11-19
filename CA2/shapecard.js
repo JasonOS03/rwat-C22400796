@@ -80,7 +80,7 @@ export class ShapeCard extends HTMLElement {
 
     #setShape(oldVal, newVal) {
         if (newVal && !(newVal in ShapeCard.SHAPE_DATA)) {
-            throw new Error(`Invalid shape type attribute ${newType}. Expected one of ${ShapeCard.SHAPES.join(', ')}.`);
+            throw new Error(`Invalid shape type attribute ${newVal}. Expected one of ${ShapeCard.SHAPES.join(', ')}.`);
         }
         // make the old shape invisible and the new shape visible
         oldVal && this.shadowRoot.querySelector(ShapeCard.shapeTag(oldVal))?.setAttribute('fill-opacity', '0');
@@ -112,18 +112,12 @@ export class MemGame extends HTMLElement
 {
     connectedCallback()
     {
-        const card_numbers = 8;
-        const cards = ShapeCard.getUniqueRandomCardsAsHTML(card_numbers, true);
         const div = document.createElement("div");
         div.style.display = "grid";
         div.style.gap = "20px";
 
-        div.innerHTML =
-        `${cards}`;
-
-        this.appendChild(div);
         
-        const grid_size = document.getAttribute("size");
+        const grid_size = this.getAttribute("size");
        
         const[rows,cols] = grid_size.split("x");
 
@@ -131,7 +125,16 @@ export class MemGame extends HTMLElement
         const parsed_cols = parseInt(cols);
 
         let the_size = parsed_rows*parsed_cols;
-        div.style.gridTemplate = `repeat(${parsed_rows},auto) /repeat(${parsed_cols},auto)`;
+        const card_numbers = the_size/2;
+        const cards = ShapeCard.getUniqueRandomCardsAsHTML(card_numbers, true);
+
+        div.innerHTML =
+        `${cards}`;
+
+        this.appendChild(div);
+
+        div.style.gridTemplateRows = "auto ".repeat(parsed_rows);
+        div.style.gridTemplateColumns = "auto ".repeat(parsed_cols);
 
         let flipped = []
 
@@ -140,7 +143,7 @@ export class MemGame extends HTMLElement
          select_cards.forEach(card => {
             card.addEventListener('click', ()=>
             {
-               if(flipped.length < 2 || !card.isFaceUp() )
+               if(flipped.length < 2 && !card.isFaceUp() )
                {
                  card.flip();
                  flipped.push(card);
@@ -160,16 +163,16 @@ export class MemGame extends HTMLElement
 
             function match(card1,card2)
             {
-                if(card1.getAttribute("colour") == card2.getAttribute("colour") && card1.getAttribute("shape") == card2.getAttribute("shape"))
+                if(card1.getAttribute("colour") === card2.getAttribute("colour") && card1.getAttribute("type") === card2.getAttribute("type"))
                 {
-                    alert("colour has matched");
+                    console.log("match has been found");
                 }
                 else
                 {
                     setTimeout(() =>{
                     card1.flip();
                     card2.flip();
-                    }),2000
+                    },1000);
                 }
             }
             function checkWin()
@@ -196,4 +199,4 @@ export class MemGame extends HTMLElement
 
     }
 }
-customElements.define('mem_game',MemGame);
+customElements.define('mem-game',MemGame);
