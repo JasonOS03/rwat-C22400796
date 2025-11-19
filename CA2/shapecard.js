@@ -9,7 +9,7 @@
 
    (see examples below and in the HTML file)
    */
-  const div = document.getElementById("container");
+
 
 export class ShapeCard extends HTMLElement {
     static observedAttributes = ["type", "colour"];
@@ -131,8 +131,65 @@ export class MemGame extends HTMLElement
         const parsed_cols = parseInt(cols);
 
         let the_size = parsed_rows*parsed_cols;
+        div.style.gridTemplate = `repeat(${parsed_rows},auto) /repeat(${parsed_cols},auto)`;
 
-        div.style.gridTemplateColumns("${the_size}")
+        let flipped = []
+
+         const select_cards = div.querySelectorAll("shape-card")
+
+         select_cards.forEach(card => {
+            card.addEventListener('click', ()=>
+            {
+               if(flipped.length < 2 || !card.isFaceUp() )
+               {
+                 card.flip();
+                 flipped.push(card);
+               }
+               else
+                {
+                    return;
+                }
+                if(flipped.length == 2)
+                {
+                    match(flipped[0],flipped[1]);
+                    checkWin();
+
+                    flipped = [];
+                }
+            })
+
+            function match(card1,card2)
+            {
+                if(card1.getAttribute("colour") == card2.getAttribute("colour") && card1.getAttribute("shape") == card2.getAttribute("shape"))
+                {
+                    alert("colour has matched");
+                }
+                else
+                {
+                    setTimeout(() =>{
+                    card1.flip();
+                    card2.flip();
+                    }),2000
+                }
+            }
+            function checkWin()
+            {
+                const cards = div.querySelectorAll("shape-card")
+                let totalFaceUp = 0;
+                cards.forEach(card =>{
+                    if(card.isFaceUp())
+                    {
+                        totalFaceUp += 1;
+                    }
+                })
+                if(totalFaceUp == the_size)
+                {
+                    alert("game has been won!")
+                }
+            }
+            
+         });
+
 
 
 
