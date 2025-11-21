@@ -1,0 +1,25 @@
+{
+  "name": "ca2",
+  "version": "1.0.0",
+  "description": "turn CA into npm project",
+  "main": "shapecard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasonOS03/rwat-C22400796.git"
+  },
+  "author": "Jason O'Sullivan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JasonOS03/rwat-C22400796/issues"
+  },
+  "homepage": "https://github.com/JasonOS03/rwat-C22400796#readme",
+  "dependencies": {
+    "vite": "^7.2.4"
+  }
+}

@@ -139,20 +139,27 @@ export class MemGame extends HTMLElement
 
         this.appendChild(div);
 
-        // duplicate the rows a (parsed_rows) number of times 
+        // duplicate the rows a (parsed_rows) number of times with row sized based on the contents of the row
+        // duplicate the columns (parsed_cols) number of times with column sized based on the contents of the col
         div.style.gridTemplateRows = "auto ".repeat(parsed_rows);
         div.style.gridTemplateColumns = "auto ".repeat(parsed_cols);
 
+        // initialize empty flipped list to store flipped cards
         let flipped = []
 
+        // select all elements of type shape-card
          const select_cards = div.querySelectorAll("shape-card")
 
+        // for each card, listen put for user clciks
          select_cards.forEach(card => {
             card.addEventListener('click', ()=>
             {
+                // if less than 2 cards are flipeed and the card is not already face up
                if(flipped.length < 2 && !card.isFaceUp() )
                {
+                // flip the card
                  card.flip();
+                 // add the card to the list
                  flipped.push(card);
                }
                else
@@ -161,37 +168,46 @@ export class MemGame extends HTMLElement
                 }
                 if(flipped.length == 2)
                 {
+                    // of 2 cards are flipped, see if they match 
                     match(flipped[0],flipped[1]);
+                    // check if all cards have been matched
                     checkWin();
 
+                    // empty the flipped list so the player can continue to flip cards
                     flipped = [];
                 }
             })
 
             function match(card1,card2)
             {
+                // if both cards are the same color and have the same type
                 if(card1.getAttribute("colour") === card2.getAttribute("colour") && card1.getAttribute("type") === card2.getAttribute("type"))
                 {
                     console.log("match has been found");
                 }
                 else
                 {
+                    // flip both cards back over after 1 second if they do not match
                     setTimeout(() =>{
                     card1.flip();
                     card2.flip();
                     },1000);
                 }
             }
+            // function to check if the player has won
             function checkWin()
             {
                 const cards = div.querySelectorAll("shape-card")
+                // initialize the total
                 let totalFaceUp = 0;
                 cards.forEach(card =>{
                     if(card.isFaceUp())
                     {
+                        // if the card is face up increment the total
                         totalFaceUp += 1;
                     }
                 })
+                // if the total cards face up == size of the grid
                 if(totalFaceUp == the_size)
                 {
                     alert("game has been won!")
@@ -206,4 +222,5 @@ export class MemGame extends HTMLElement
 
     }
 }
+// define the element name for the custom element
 customElements.define('mem-game',MemGame);
