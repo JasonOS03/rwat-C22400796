@@ -112,27 +112,34 @@ export class MemGame extends HTMLElement
 {
     connectedCallback()
     {
+        // create the div with a grid display and a gap between elements set to 20px
         const div = document.createElement("div");
         div.style.display = "grid";
         div.style.gap = "20px";
 
-        
+        // get the size attribute
         const grid_size = this.getAttribute("size");
-       
+
+        // split the size by x to get the individual numbers and assign them as rows and columns
         const[rows,cols] = grid_size.split("x");
 
+        // parse the row and columns into integers
         const parsed_rows = parseInt(rows);
         const parsed_cols = parseInt(cols);
 
+        // the total grid size is the rows*columns
         let the_size = parsed_rows*parsed_cols;
         const card_numbers = the_size/2;
+        // get a specified number of random cards and assign to a variable
         const cards = ShapeCard.getUniqueRandomCardsAsHTML(card_numbers, true);
 
+        // display the cards
         div.innerHTML =
         `${cards}`;
 
         this.appendChild(div);
 
+        // duplicate the rows a (parsed_rows) number of times 
         div.style.gridTemplateRows = "auto ".repeat(parsed_rows);
         div.style.gridTemplateColumns = "auto ".repeat(parsed_cols);
 
