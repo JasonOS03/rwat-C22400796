@@ -11,18 +11,19 @@
    */
   // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAgiuoHawf7-vdzoLhwumePmeb2djunwSM",
-  authDomain: "rwat-ca-43554.firebaseapp.com",
-  projectId: "rwat-ca-43554",
-  storageBucket: "rwat-ca-43554.firebasestorage.app",
-  messagingSenderId: "1019402551514",
-  appId: "1:1019402551514:web:2811c7ef1a54fb4a7725e3"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID
 };
 
 // Initialize Firebase
@@ -168,14 +169,16 @@ export class MemGame extends HTMLElement
 
         // select all elements of type shape-card
          const select_cards = div.querySelectorAll("shape-card")
+         let num_clicks = 0;
 
-        // for each card, listen put for user clciks
+        // for each card, listen put for user clicks
          select_cards.forEach(card => {
             card.addEventListener('click', ()=>
             {
                 // if less than 2 cards are flipeed and the card is not already face up
                if(flipped.length < 2 && !card.isFaceUp() )
                {
+                num_clicks = num_clicks + 1;
                 // flip the card
                  card.flip();
                  // add the card to the list
@@ -191,6 +194,7 @@ export class MemGame extends HTMLElement
                     match(flipped[0],flipped[1]);
                     // check if all cards have been matched
                     checkWin();
+                    
 
                     // empty the flipped list so the player can continue to flip cards
                     flipped = [];
@@ -214,7 +218,7 @@ export class MemGame extends HTMLElement
                 }
             }
             // function to check if the player has won
-            function checkWin()
+             async function checkWin()
             {
                 const cards = div.querySelectorAll("shape-card")
                 // initialize the total
@@ -230,6 +234,10 @@ export class MemGame extends HTMLElement
                 if(totalFaceUp == the_size)
                 {
                     alert("game has been won!")
+                    await addDoc(collection(db,"memory_game"),{
+                        num_clicks: num_clicks,
+                        time_to_complete: Timestamp.toString()
+                    });
                 }
             }
             
