@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/JasonOS03/rwat-C22400796#readme",
   "dependencies": {
+    "firebase": "^12.6.0",
     "vite": "^7.2.4"
   }
 }
