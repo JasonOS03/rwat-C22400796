@@ -11,7 +11,7 @@
    */
   // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp } from "firebase/firestore";
+import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp, getAggregateFromServer,average } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,6 +29,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const average_button = document.getElementById("average_clicks");
 
 
 export class ShapeCard extends HTMLElement {
@@ -170,6 +172,16 @@ export class MemGame extends HTMLElement
         // select all elements of type shape-card
          const select_cards = div.querySelectorAll("shape-card")
          let num_clicks = 0;
+         average_button.addEventListener("click", async ()=>
+        {
+            const snapshot = await getAggregateFromServer(collection(db,"memory_game"),
+        {
+            average_clicks: average('num_clicks')
+        });
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = `Average Clicks: ${snapshot.data().average_clicks}`;
+        div.appendChild(paragraph);
+        });
 
         // for each card, listen put for user clicks
          select_cards.forEach(card => {
