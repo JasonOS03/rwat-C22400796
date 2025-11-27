@@ -18,12 +18,12 @@ import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID
 };
 
 // Initialize Firebase
@@ -233,10 +233,11 @@ export class MemGame extends HTMLElement
                 // if the total cards face up == size of the grid
                 if(totalFaceUp == the_size)
                 {
-                    alert("game has been won!")
+                    alert("game has been won!");
+                    console.log("Database: ", db);
                     await addDoc(collection(db,"memory_game"),{
                         num_clicks: num_clicks,
-                        time_to_complete: Timestamp.toString()
+                        time_to_complete: Timestamp.now()
                     });
                 }
             }
