@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "turn CA into npm project",
   "main": "shapecard.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx --node-options=--experimental-vm-modules jest",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
@@ -21,6 +22,10 @@
   "homepage": "https://github.com/JasonOS03/rwat-C22400796#readme",
   "dependencies": {
     "firebase": "^12.6.0",
+    "jest-environment-jsdom": "^30.2.0",
     "vite": "^7.2.4"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }

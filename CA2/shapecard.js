@@ -10,6 +10,8 @@
    (see examples below and in the HTML file)
    */
   // Import the functions you need from the SDKs you need
+
+import { match } from "./match.js"
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp, getAggregateFromServer,average } from "firebase/firestore";
 
@@ -213,22 +215,8 @@ export class MemGame extends HTMLElement
                 }
             })
 
-            function match(card1,card2)
-            {
-                // if both cards are the same color and have the same type
-                if(card1.getAttribute("colour") === card2.getAttribute("colour") && card1.getAttribute("type") === card2.getAttribute("type"))
-                {
-                    console.log("match has been found");
-                }
-                else
-                {
-                    // flip both cards back over after 1 second if they do not match
-                    setTimeout(() =>{
-                    card1.flip();
-                    card2.flip();
-                    },1000);
-                }
-            }
+            
+            
             // function to check if the player has won
              async function checkWin()
             {
@@ -253,14 +241,35 @@ export class MemGame extends HTMLElement
                     });
                 }
             }
+          
             
          });
+        
 
 
 
 
 
     }
+    
 }
+function match(card1,card2)
+    {
+        // if both cards are the same color and have the same type
+        if(card1.getAttribute("colour") === card2.getAttribute("colour") && card1.getAttribute("type") === card2.getAttribute("type"))
+        {
+            console.log("match has been found");
+        }
+        else
+        {
+            // flip both cards back over after 1 second if they do not match
+            setTimeout(() =>{
+            card1.flip();
+            card2.flip();
+            },1000);
+        }
+    }
+    export { match };
+
 // define the element name for the custom element
 customElements.define('mem-game',MemGame);
