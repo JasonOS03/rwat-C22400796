@@ -10,10 +10,11 @@
    (see examples below and in the HTML file)
    */
   // Import the functions you need from the SDKs you need
-
+import { checkWin } from "./checkWin.js";
 import { match } from "./match.js"
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp, getAggregateFromServer,average } from "firebase/firestore";
+import { checkWin } from "./checkWin.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -207,7 +208,7 @@ export class MemGame extends HTMLElement
                     // of 2 cards are flipped, see if they match 
                     match(flipped[0],flipped[1]);
                     // check if all cards have been matched
-                    checkWin();
+                    checkWin(db,the_size,div,num_clicks);
                     
 
                     // empty the flipped list so the player can continue to flip cards
@@ -217,31 +218,7 @@ export class MemGame extends HTMLElement
 
             
             
-            // function to check if the player has won
-             async function checkWin()
-            {
-                const cards = div.querySelectorAll("shape-card")
-                // initialize the total
-                let totalFaceUp = 0;
-                cards.forEach(card =>{
-                    if(card.isFaceUp())
-                    {
-                        // if the card is face up increment the total
-                        totalFaceUp += 1;
-                    }
-                })
-                // if the total cards face up == size of the grid
-                if(totalFaceUp == the_size)
-                {
-                    alert("game has been won!");
-                    console.log("Database: ", db);
-                    await addDoc(collection(db,"memory_game"),{
-                        num_clicks: num_clicks,
-                        time_to_complete: Timestamp.now()
-                    });
-                }
-            }
-          
+             
             
          });
         
@@ -253,23 +230,6 @@ export class MemGame extends HTMLElement
     }
     
 }
-function match(card1,card2)
-    {
-        // if both cards are the same color and have the same type
-        if(card1.getAttribute("colour") === card2.getAttribute("colour") && card1.getAttribute("type") === card2.getAttribute("type"))
-        {
-            console.log("match has been found");
-        }
-        else
-        {
-            // flip both cards back over after 1 second if they do not match
-            setTimeout(() =>{
-            card1.flip();
-            card2.flip();
-            },1000);
-        }
-    }
-    export { match };
 
 // define the element name for the custom element
 customElements.define('mem-game',MemGame);
