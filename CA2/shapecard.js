@@ -174,14 +174,21 @@ export class MemGame extends HTMLElement
         // select all elements of type shape-card
          const select_cards = div.querySelectorAll("shape-card")
          let num_clicks = 0;
+         // listen out for clicks of the button
          average_button.addEventListener("click", async ()=>
         {
+            // function to wait for an aggregate result from all the collections in the Firebase database
             const snapshot = await getAggregateFromServer(collection(db,"memory_game"),
         {
+            // get an average of the number of clicks
             average_clicks: average('num_clicks')
         });
+        // create a paragraph element
         const paragraph = document.createElement("p");
+        // display the average clicks
         paragraph.innerHTML = `Average Clicks: ${snapshot.data().average_clicks}`;
+        // set the screen reader label
+        paragraph.ariaLabel = "Average number of clicks";
         div.appendChild(paragraph);
         });
 
@@ -214,16 +221,10 @@ export class MemGame extends HTMLElement
                     flipped = [];
                 }
             })
-
-            
-            
-             
+   
             
          });
         
-
-
-
 
 
     }

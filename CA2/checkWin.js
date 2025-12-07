@@ -16,9 +16,10 @@
                 {
                     alert("game has been won!");
                     console.log("Database: ", db);
+                    // aynchronously wait for the document to be added to a collection in the Firestore database
                     await addDoc(collection(db,"memory_game"),{
-                        num_clicks: num_clicks,
-                        time_to_complete: Timestamp.now()
+                        num_clicks: num_clicks, // contains the number of clicks as a field
+                        time_to_complete: Timestamp.now() // contains a timestamp as a field showing the time taken to win the game
                     });
                 }
             }
