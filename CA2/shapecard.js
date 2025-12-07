@@ -11,10 +11,9 @@
    */
   // Import the functions you need from the SDKs you need
 import { checkWin } from "./checkWin.js";
-import { match } from "./match.js"
+import { match } from "./match.js";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection,getDocs,setDoc,deleteDoc,doc,addDoc, Timestamp, getAggregateFromServer,average } from "firebase/firestore";
-import { checkWin } from "./checkWin.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
